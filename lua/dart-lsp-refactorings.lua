@@ -13,7 +13,6 @@ local function will_rename_files(old_name, new_name, callback)
 		newUri = vim.uri_from_fname(new_name),
 		oldUri = vim.uri_from_fname(old_name),
 	}
-	vim.pretty_print(file_change)
 	params.files = { file_change }
 	vim.lsp.buf_request(0, "workspace/willRenameFiles", params, function(err, result)
 		if err then
