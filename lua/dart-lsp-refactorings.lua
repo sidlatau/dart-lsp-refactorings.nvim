@@ -1,6 +1,6 @@
 local api = vim.api
 local util = vim.lsp.util
-local refactoring_utils = require("dart-lsp-refacoring.utils")
+local refactoring_utils = require("dart-lsp-refactorings.utils")
 local M = {}
 
 local function will_rename_files(old_name, new_name, callback)
@@ -88,9 +88,9 @@ function M.rename(new_name, options)
 
 		local function rename_fix_imports(name)
 			if is_file_rename then
-				local old_file_path = vim.api.nvim_buf_get_name(0)
+				local old_file_path = vim.fn.expand("%:p")
 				local new_filename = refactoring_utils.file_name_for_class_name(name)
-				local actual_file_head = vim.fn.expand("%:h")
+				local actual_file_head = vim.fn.expand("%:p:h")
 				local new_file_path = refactoring_utils.path_join(actual_file_head, new_filename)
 				will_rename_files(old_file_path, new_file_path, function(result)
 					rename(name, result)
