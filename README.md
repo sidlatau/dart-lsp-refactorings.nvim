@@ -1,6 +1,6 @@
 # dart-lsp-refactorings.nvim
 
-Dart language server supports ability to `renameFilesWithClasses` and to update imports (`updateImportsOnRename`) after files was renamed. But now impors are not updated. LSP server support `workspace/willRenameFiles` client request to get import changes. But Neovim LSP does not have support for this request. This plugin modifies `lsp.buf.rename` function to call `workspace/willRenameFiles` request before file rename and apply these changes after rename is done.
+Dart language server has setting to `renameFilesWithClasses` and to update imports `updateImportsOnRename` after files was renamed. But now imports are not updated. LSP server support `workspace/willRenameFiles` client request to get import changes. But Neovim LSP does not have support for this request. This plugin modifies `lsp.buf.rename` function to call `workspace/willRenameFiles` request before file rename and apply these changes after rename is done.
 
 ## Installation
 
