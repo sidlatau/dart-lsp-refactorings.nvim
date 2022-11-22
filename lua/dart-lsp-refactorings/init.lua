@@ -32,7 +32,7 @@ function M.rename(new_name, options)
 	})
 	local client = clients[1]
 	if not client then
-		vim.lsp.rename(new_name, options)
+		vim.lsp.buf.rename(new_name, options)
 		return
 	end
 
