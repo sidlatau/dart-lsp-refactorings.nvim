@@ -16,11 +16,9 @@ local function will_rename_files(old_name, new_name, callback)
 		oldUri = vim.uri_from_fname(old_name),
 	}
 	params.files = { file_change }
-	vim.pretty_print(params)
 	dartls_client.request("workspace/willRenameFiles", params, function(err, result)
 		if err then
-			vim.pretty_print(err)
-			-- vim.notify(err.message or "Error on getting lsp rename results!")
+			vim.notify(err.message or "Error on getting lsp rename results!")
 			return
 		end
 		callback(result)
