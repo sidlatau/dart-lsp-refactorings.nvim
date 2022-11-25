@@ -12,9 +12,41 @@ use {'sidlatau/dart-lsp-refactorings.nvim' }
 
 ## Usage
 
+```lua
+require("dart-lsp-refactorings").rename()
+
+```
+
 Call this function when you want rename class or anything else. If file will be renamed to, this function will update imports.
 
-```lua
-    require("dart-lsp-refactorings").rename()
+---
 
+```lua
+require("dart-lsp-refactorings").on_rename_file({
+  source = "/source_file_path.dart",
+  destination = "/destination_file_path.dart",
+  callback = function()
+    -- function to be called to finish file rename
+  end
+})
+```
+
+Hook function that get import changes and applies these changes after file rename.
+Example of using with [neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim)
+
+```lua
+neo_tree.setup {
+    ...
+    hooks = {
+      on_rename_file = function(data)
+        local ok, refact = pcall(require, "dart-lsp-refactorings")
+        if ok then
+          refact.on_rename_file(data)
+        else
+          -- if plugin does not found - finish file rename
+          data.callback()
+        end
+      end,
+    },
+}
 ```
