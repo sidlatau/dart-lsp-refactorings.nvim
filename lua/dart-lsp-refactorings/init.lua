@@ -10,8 +10,4 @@ function M.on_rename_file(data)
 	rename_file.on_rename(data)
 end
 
-function M.after_rename_file(data)
-	rename_file.after_rename(data)
-end
-
 return M
