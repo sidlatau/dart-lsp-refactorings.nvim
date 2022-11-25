@@ -54,5 +54,8 @@ function M.file_name_for_class_name(class_name)
 	file_name = file_name:sub(2)
 	return file_name .. ".dart"
 end
+function M.ends_with(str, ending)
+	return ending == "" or str:sub(-#ending) == ending
+end
 
 return M
