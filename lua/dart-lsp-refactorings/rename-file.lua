@@ -28,8 +28,8 @@ function M.on_rename(data)
 			data.callback()
 			return
 		end
-		data.callback()
 		vim.lsp.util.apply_workspace_edit(result, dartls_client.offset_encoding)
+		data.callback()
 	end)
 end
 
