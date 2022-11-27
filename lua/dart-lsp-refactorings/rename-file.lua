@@ -1,35 +1,36 @@
 local M = {}
 local refactoring_utils = require("dart-lsp-refactorings.utils")
 
-function M.on_rename(data)
+function M.on_rename(args)
 	if
-		not refactoring_utils.ends_with(data.source, ".dart")
-		or not refactoring_utils.ends_with(data.destination, ".dart")
+		not refactoring_utils.ends_with(args.source, ".dart")
+		or not refactoring_utils.ends_with(args.destination, ".dart")
 	then
 		-- If not dart files are renamed  - just return
-		data.callback()
+		args.callback()
 		return
 	end
 
 	local dartls_client = vim.lsp.get_active_clients({ filter = "dartls" })[1]
 	if not dartls_client then
-		data.callback()
+		args.callback()
 		return
 	end
 	local params = {
 		files = { {
-			oldUri = vim.uri_from_fname(data.source),
-			newUri = vim.uri_from_fname(data.destination),
+			oldUri = vim.uri_from_fname(args.source),
+			newUri = vim.uri_from_fname(args.destination),
 		} },
 	}
 	dartls_client.request("workspace/willRenameFiles", params, function(err, result)
 		if err then
 			vim.notify(err.message or "Error on getting lsp rename results!")
-			data.callback()
-			return
+		else
+			if result then
+				vim.lsp.util.apply_workspace_edit(result, dartls_client.offset_encoding)
+			end
 		end
-		vim.lsp.util.apply_workspace_edit(result, dartls_client.offset_encoding)
-		data.callback()
+		args.callback()
 	end)
 end
 

@@ -11,13 +11,13 @@ end
 
 --- Hook function for getting LSP result of import changes and
 --- applying these changes  after file rename.
---- @param data table {
+--- @param args table {
 ---   source - 'source file path',
 ---   destination - 'destination file path'
 ---   callback - this callback needs to be called to be able to finish file rename
 --}
-function M.on_rename_file(data)
-	rename_file.on_rename(data)
+function M.on_rename_file(args)
+	rename_file.on_rename(args)
 end
 
 return M
