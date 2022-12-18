@@ -31,22 +31,33 @@ require("dart-lsp-refactorings").on_rename_file({
 })
 ```
 
-Hook function that get import changes and applies these changes after file rename.
+Hook function that get import changes and applies these changes before file rename.
 Example of using with [neo-tree](https://github.com/nvim-neo-tree/neo-tree.nvim)
 
 ```lua
 neo_tree.setup {
-    ...
-    hooks = {
-      on_rename_file = function(data)
+  ...
+  event_handlers = {
+    {
+      event = "before_file_rename",
+      handler = function(args)
         local ok, refact = pcall(require, "dart-lsp-refactorings")
         if ok then
-          refact.on_rename_file(data)
-        else
-          -- if plugin does not found - finish file rename
-          data.callback()
+          refact.on_rename_file(args)
+          return { handled = true }
         end
       end,
     },
+    {
+      event = "before_file_move",
+      handler = function(args)
+        local ok, refact = pcall(require, "dart-lsp-refactorings")
+        if ok then
+          refact.on_rename_file(args)
+          return { handled = true }
+        end
+      end,
+    },
+  },
 }
 ```
