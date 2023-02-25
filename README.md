@@ -17,7 +17,7 @@ require("dart-lsp-refactorings").rename()
 
 ```
 
-Call this function when you want rename class or anything else. If file will be renamed to, this function will update imports.
+Call this function when you want rename class or anything else. If file will be renamed too, this function will update imports.
 
 ---
 
